@@ -1,0 +1,81 @@
+import pandas as pd
+import numpy as np
+
+df = pd.read_csv("./Mall_Customers.csv")
+df.info()
+
+df.mean()
+
+df.loc[:,'Age'].mean()
+
+df.loc[:,'CustomerID'].mean()
+
+df.mean(axis=1) [0:4]
+
+df.median()
+
+df.median(axis=1) [0:4]
+
+df.loc[:,'CustomerID'].median()
+
+df.mode()
+
+df.loc[:,'CustomerID'].mode()
+
+df.loc[:,'Age'].mode()
+
+df.max()
+
+df.loc[:,'Age'].max(skipna = False)
+
+df.min()
+
+df.loc[:,'Age'].min(skipna = False)
+
+df.std()
+
+df.loc[:,'Age'].std()
+
+df.loc[:,'Annual Income (k$)'].std()
+
+df.std(axis=1)[0:4]
+
+df
+
+df.groupby(['Genre']) ['Age'].mean()
+
+df_u=df.rename(columns= {'Annual Income k$)':'Income'},inplace=False)
+
+from sklearn import preprocessing
+
+enc = preprocessing.OneHotEncoder()
+
+enc_df = pd.DataFrame(enc.fit_transform(df[['Genre']]).toarray())
+
+enc_df
+
+df_encode =df_u.join(enc_df)
+
+df_encode
+
+iris=pd.read_csv("./IRIS.csv")
+
+iris
+
+irisSet = (iris['species']== 'Iris-setosa')
+
+print('Iris-setosa')
+
+print(iris[irisSet].describe())
+
+irisVer = (iris['species']== 'Iris-versicolor')
+
+print('Iris-versicolor')
+print(iris[irisVer].describe())
+
+irisVir = (iris['species']== 'Iris-virginica')
+
+print(iris[irisVir].describe())
+
+print('Iris-virginica')
+print(iris[irisVir].describe())
