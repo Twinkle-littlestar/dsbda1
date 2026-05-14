@@ -1,45 +1,55 @@
 import pandas as pd
 import numpy as np
-df = pd.read_csv("/content/IRIS.csv")
-df.head()
-
+df=pd.read_csv("/content/IRIS.csv")
+df
+# # df.index
+# df.columns
+# df.shape
 df.dtypes
+# df.columns.values
+# df.describe()
+# df['sepal_length']
+# df.iloc[:10,:1]
+# df.isnull().any()
+# df.sepal_length.isnull().sum()
+
+df['petal_length']=df['petal_length'].astype("int")
+df.dtypes
+df
 
 from sklearn import preprocessing
-min_max_scaler = preprocessing.MinMaxScaler()
+df.head()
 
-x = df.iloc[:,:4]
-x
-
+min_max_scaler=preprocessing.MinMaxScaler()
+# min_max_scaler = preprocessing.MinMaxScaler()
+x=df.iloc[:,:4]
 x_scaled = min_max_scaler.fit_transform(x)
-
 df_normalized = pd.DataFrame(x_scaled)
 df_normalized
 
 df['species'].unique()
 
 label_encoder = preprocessing.LabelEncoder()
-df['species'] = label_encoder.fit_transform(df['species'])
-
+df['species']= label_encoder.fit_transform(df['species'])
 df['species'].unique()
+df
 
-features_df = df.drop(columns=['species'])
+species = df[['species']]
 
-enc = preprocessing.OneHotEncoder()
-enc_df=pd.DataFrame(enc.fit_transform(df[['species']]).toarray())
+# Initialize the OneHotEncoder
+encoder = preprocessing.OneHotEncoder()
 
-df_encode = features_df.join(enc_df)
-df_encode
+# Fit and transform the 'species' column
+encoded_species = encoder.fit_transform(species).toarray()
 
-df_encode.rename(columns = {0:'Iris-Setosa',
-1:'Iris-Versicolor',2:'Iris-virginica'}, inplace = True)
+# Create a DataFrame with the encoded species
+encoded_df = pd.DataFrame(encoded_species, columns=encoder.categories_[0])
 
-df_encode
+# Concatenate the encoded species DataFrame with the original DataFrame
+df_encoded = pd.concat([df, encoded_df], axis=1)
 
-from sklearn import preprocessing
-df['species'].unique()
-
-one_hot_df = pd.get_dummies(df, prefix="Species",
-columns=['species'], drop_first=True)
-
-one_hot_df
+# Display the encoded DataFrame
+print(df_encoded.head())
+encoded_species
+encoded_df
+df_encoded
